@@ -17,11 +17,10 @@ intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 def get_daily(day, month):
-    result = daily[month-1][day]
-    if result:
-        return result
-    else:
-        return "Na dnešní den nemáme žádnou pranostiku. 😔"
+    try:
+        result = daily[month-1][day]
+    except KeyError:
+        return ["Na dnešní den nemáme žádnou pranostiku. 😔"]
 
 def get_monthly(month):
     return monthly[f"{month:02d}"]
@@ -43,5 +42,6 @@ async def on_ready():
             await channel.send(get_monthly(month))
     else:
         print("Channel not found.")
+    await bot.close() 
 
 bot.run(TOKEN)
