@@ -18,7 +18,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 def get_daily(day, month):
     try:
-        result = daily[month-1][day]
+        return daily[month-1][day]
     except KeyError:
         return ["Na dnešní den nemáme žádnou pranostiku. 😔"]
 
@@ -35,6 +35,7 @@ async def on_ready():
     if channel:
         await channel.send("## Pranostiky pro dnešní den 🌞☔🌷🍃🌨️📆")
         lines = get_daily(day, month)
+        print("\n".join(lines))
         await channel.send("\n".join(lines))
         if day == 1:
             await channel.send("## Pranostiky pro dnešní měsíc 🗓️😳")
